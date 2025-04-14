@@ -5,6 +5,7 @@ import { Group, Message } from "../../@types/types";
 import Loading from "../../_components/Loading";
 import MessageItem from "../../_components/MessageItem";
 import InputMessage from "../../_components/InputMessage";
+import LeftBar from "../../_components/LeftBar";
 
 export default function GroupPage() {
   const { id } = useParams();
@@ -38,7 +39,7 @@ export default function GroupPage() {
         console.error("Error fetching group:", error);
       } finally {
         setIsLoading(false);
-        setTimeout(scrollToBottom, 0); 
+        setTimeout(scrollToBottom, 0);
       }
     };
 
@@ -109,30 +110,33 @@ export default function GroupPage() {
     try {
       const response = await fetch(`/api/group/${id}/message?page=1`);
       const data = await response.json();
-      
+
       if (data.messages.length > 0) {
         // Verifica mensagens novas
-        const newMessages = data.messages.filter((msg: Message) => 
-          !messages.some(m => m.id === msg.id)
+        const newMessages = data.messages.filter(
+          (msg: Message) => !messages.some((m) => m.id === msg.id)
         );
-        
+
         // Verifica mensagens deletadas
         const deletedMessageIds = messages
-          .filter(m => !data.messages.some((msg: Message) => msg.id === m.id))
-          .map(m => m.id);
+          .filter((m) => !data.messages.some((msg: Message) => msg.id === m.id))
+          .map((m) => m.id);
 
         if (newMessages.length > 0 || deletedMessageIds.length > 0) {
           // Atualiza a lista de mensagens
-          setMessages(prev => {
+          setMessages((prev) => {
             // Remove mensagens deletadas
-            const filteredMessages = prev.filter(m => !deletedMessageIds.includes(m.id));
+            const filteredMessages = prev.filter(
+              (m) => !deletedMessageIds.includes(m.id)
+            );
             // Adiciona novas mensagens
             return [...filteredMessages, ...newMessages];
           });
 
           // Se o usuário estiver no final da conversa, rola para baixo
           if (messagesContainerRef.current) {
-            const { scrollTop, scrollHeight, clientHeight } = messagesContainerRef.current;
+            const { scrollTop, scrollHeight, clientHeight } =
+              messagesContainerRef.current;
             const isAtBottom = scrollHeight - scrollTop === clientHeight;
             if (isAtBottom) {
               scrollToBottom();
@@ -148,7 +152,7 @@ export default function GroupPage() {
   useEffect(() => {
     // Verifica novas mensagens a cada 5 segundos
     const interval = setInterval(checkNewMessages, 5000);
-    
+
     // Limpa o intervalo quando o componente é desmontado
     return () => clearInterval(interval);
   }, [id, messages]);
@@ -166,40 +170,43 @@ export default function GroupPage() {
   }
 
   return (
-    <div className="flex flex-col bg-ice-blue h-full relative">
-      {/* Header */}
-      <div className="flex items-center bg-foreground border-b border-light-gray p-4 h-14">
-        <div className="flex items-center gap-2">
-          <div className="flex w-10 h-10 rounded-full items-center justify-center bg-ice-blue text-white">
-            {group.name.charAt(0)}
-          </div>
-          <div className="flex-1">
-            <p className=" text-rich-black">{group.name}</p>
-            <p className="text-sm text-navy-gray">
-              {group.members.length} members
-            </p>
+    <div className="flex-1 flex">
+      <LeftBar />
+      <div className="flex flex-col bg-ice-blue h-full relative flex-1">
+        {/* Header */}
+        <div className="flex items-center bg-foreground border-b border-light-gray p-4 h-14">
+          <div className="flex items-center gap-2">
+            <div className="flex w-10 h-10 rounded-full items-center justify-center bg-ice-blue text-white">
+              {group.name.charAt(0)}
+            </div>
+            <div className="flex-1">
+              <p className=" text-rich-black">{group.name}</p>
+              <p className="text-sm text-navy-gray">
+                {group.members.length} members
+              </p>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Messages */}
-      <div 
-        ref={messagesContainerRef}
-        className="relative flex-1 overflow-y-auto p-4 space-y-4 bg-[url('/background.svg')] bg-repeat bg-contain pb-24"
-      >
-        {messages.map((message) => (
-          <MessageItem
-            key={message.id}
-            message={message}
-            isUser={userId == message.user.id}
-            handleDeleteMessage={handleDeleteMessage}
-          />
-        ))}
-        <div ref={messagesEndRef} />
-        <div />
-      </div>
+        {/* Messages */}
+        <div
+          ref={messagesContainerRef}
+          className="relative flex-1 overflow-y-auto p-4 space-y-4 bg-[url('/background.svg')] bg-repeat bg-contain pb-24"
+        >
+          {messages.map((message) => (
+            <MessageItem
+              key={message.id}
+              message={message}
+              isUser={userId == message.user.id}
+              handleDeleteMessage={handleDeleteMessage}
+            />
+          ))}
+          <div ref={messagesEndRef} />
+          <div />
+        </div>
 
-      <InputMessage handleSendMessage={handleSendMessage} />
+        <InputMessage handleSendMessage={handleSendMessage} />
+      </div>
     </div>
   );
 }
