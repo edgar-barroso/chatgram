@@ -1,5 +1,5 @@
 "use client";
-import { Group } from "../@types/types";
+import { Group } from "../_types/types";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import GroupItem from "./GroupItem";

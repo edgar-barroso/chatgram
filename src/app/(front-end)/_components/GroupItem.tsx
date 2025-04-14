@@ -1,4 +1,4 @@
-import { Group } from "../@types/types";
+import { Group } from "../_types/types";
 
 interface GroupItemProps {
   group: Group;
