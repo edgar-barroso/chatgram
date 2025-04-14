@@ -21,3 +21,4 @@ export interface Message {
     updatedAt: string;
     user: User;
 }
+
