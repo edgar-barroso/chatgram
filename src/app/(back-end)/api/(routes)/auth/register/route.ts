@@ -48,6 +48,17 @@ export async function POST(request: NextRequest) {
       }
     })
 
+    const allGroups = await prisma.group.findMany({
+      select: { id: true }
+    })
+
+    await Promise.all(allGroups.map(group => 
+      prisma.group.update({
+        where: { id: group.id },
+        data: { members: { connect: { id: user.id } } }
+      })
+    ));
+
     return NextResponse.json(user)
   } catch (error) {
     console.error('Registration error:', error)
