@@ -185,7 +185,7 @@ export default function GroupPage() {
       {/* Messages */}
       <div 
         ref={messagesContainerRef}
-        className="relative flex-1 overflow-y-auto p-4 space-y-4 bg-[url('/background.svg')] bg-repeat bg-contain pb-24"
+        className="relative flex-1 overflow-y-auto scrollbar-none p-4 space-y-4 bg-[url('/background.svg')] bg-repeat bg-contain pb-24"
       >
         {messages.map((message) => (
           <MessageItem

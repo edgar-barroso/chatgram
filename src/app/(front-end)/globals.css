@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "tailwind-scrollbar";
 
 :root {
   --ice-blue: #8BABD8;

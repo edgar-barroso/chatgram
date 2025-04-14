@@ -13,9 +13,12 @@ export default function LayoutClient({ children }: LayoutClientProps) {
   const isAuthPage = publicRoutes.includes(pathname || "");
 
   return (
-    <div className="flex h-screen w-screen">
+    <div className="flex h-screen w-screen p-20 bg-ice-blue ">
+      <div className="flex-1 flex shadow-2xl drop-shadow-2xl">
+
       {!isAuthPage && <LeftBar />}
       <div className="flex-1">{children}</div>
+      </div>
     </div>
   );
 }

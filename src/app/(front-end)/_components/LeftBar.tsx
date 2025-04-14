@@ -39,7 +39,7 @@ export default function LeftBar() {
   return (
     <div className="flex flex-col bg-foreground border-r border-light-gray">
       <SearchBar handleSetSearchTerm={setSearchTerm} />
-      <div className={`flex flex-col overflow-y-auto`}>
+      <div className={`flex flex-col overflow-y-auto scrollbar-none flex-1`}>
         {groups.map((group) => (
           <div key={group.id}>
             {group.name.toLowerCase().includes(searchTerm.toLowerCase()) && (

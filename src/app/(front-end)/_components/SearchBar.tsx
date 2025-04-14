@@ -16,7 +16,7 @@ export default function SearchBar({ handleSetSearchTerm }: SearchBarProps) {
 
 
   return (
-    <div className="flex gap-2 items-center py-2 px-4 h-20">
+    <div className="flex gap-2 items-center py-2 px-4 h-14">
       <FiMenu size={24} className="cursor-pointer" />
       <div className="flex items-center gap-2 bg-light-gray p-2 rounded-full flex-1">
         <FiSearch size={24} />
