@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { User } from '../_types/types'
+import Loading from '../_components/Loading'
 
 export default function ProfilePage() {
   const [user, setUser] = useState<User | null>(null)
@@ -57,9 +58,7 @@ export default function ProfilePage() {
 
   if (!user) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div>Loading...</div>
-      </div>
+      <Loading />
     )
   }
 
