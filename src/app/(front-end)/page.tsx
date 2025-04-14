@@ -1,6 +1,7 @@
 "use client"
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import Loading from "./_components/Loading";
 
 export default function Home() {
   const router = useRouter();
@@ -9,5 +10,5 @@ export default function Home() {
     router.push("/profile");
   }, [router]);
 
-  return null;
+  return <Loading />;
 }
